@@ -1,9 +1,9 @@
-    export const API_BASE_URL= process.env.REACT_APP_BASE_URL;
+import { token } from "../Components/Constant/Common";
+export const API_BASE_URL= process.env.REACT_APP_BASE_URL;
 
     const ApiService = {
     async request(endpoint, method, body = null) {
         try {
-        const token = localStorage.getItem("token");
 
         const headers = {
             "Content-Type": "application/json",
