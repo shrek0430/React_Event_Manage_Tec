@@ -1,177 +1,141 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardBody, Col, Container, Input, Label, Row, Button, Form, FormFeedback, Alert, Spinner } from 'reactstrap';
+import React, {  useState } from "react";
+import {
+  Card, CardBody, Col, Container, Row, Form, FormFeedback, Alert
+} from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { Field, useFormik } from "formik";
 import * as Yup from "yup";
-import { useFormik } from "formik";
+import { toast} from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
 import logoLight from "../../assets/images/logo-light.png";
 import ParticlesAuth from "../AuthenticationInner/ParticlesAuth";
+import BaseButton from "../../Components/Base/Button";
+import BaseInput from "../../Components/Base/Input";
+import { login } from "../../Api/LoginApi";
+import {StatusMessage} from "../../Components/Constant/Common";
+import { Validation , Placeholder, Check} from "../../Components/Constant/Validation";
+import { Email, Password,PageTitle } from "../../Components/Constant/LoginConstant";
+import { Texts } from "../../Components/Constant/Common";
 
 const Login = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-    // Local state for form handling
-    const [userLogin, setUserLogin] = useState({ email: "", password: "" });
-    const [passwordShow, setPasswordShow] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState("");
+  document.title = PageTitle;
 
-    useEffect(() => {
-        document.title = "Basic SignIn | Velzon - React Admin & Dashboard Template";
-    }, []);
+  const validation = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema:Yup.object({
+      email: Yup.string().email(Check.CheckValid(Email)).required(Check.require(Email)),
+      password: Yup.string().required(Check.require(Password)),
+  }),
+    onSubmit: async (values) => {
+      setLoading(true);
+      setErrorMsg("");
+    
+      try {
+        const response = await login(values.email, values.password);
+    
+        if (StatusMessage(response.StatusCodes)) {
+          toast.success(response.message);
+    
+          localStorage.setItem("token", response.token);
+    
+          setTimeout(() => {
+            setLoading(false);
+            navigate("/dashboard");
+          }, 1500);
+        } else {
+          toast.error(response?.message || "Login failed!");
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+        setErrorMsg(error.message);
+    
+        console.error("Login Error:", error.message);
+        toast.error(error?.message || "Something went wrong!");
+      }
+    }    
 
-    // Formik validation
-    const validation = useFormik({
-        initialValues: {
-            email: "mailto:admin@themesbrand.com",
-            password: "123456",
-        },
-        validationSchema: Yup.object({
-            email: Yup.string().email("Invalid email address").required("Please Enter Your Email"),
-            password: Yup.string().required("Please Enter Your Password"),
-        }),
-        onSubmit: async (values) => {
-            setLoading(true);
-            setErrorMsg("");
+  });
 
-            try {
-                // Simulated login request (replace with API call)
-                if (values.email === "mailto:admin@themesbrand.com" && values.password === "123456") {
-                    setUserLogin(values);
-                    setTimeout(() => {
-                        setLoading(false);
-                        navigate("/dashboard");
-                    }, 1500);
-                } else {
-                    throw new Error("Invalid credentials");
-                }
-            } catch (error) {
-                setLoading(false);
-                setErrorMsg(error.message);
-            }
-        },
-    });
+  return (
+    <React.Fragment>
+      <ParticlesAuth>
+        <div className="auth-page-content mt-lg-5">
+          <Container>
+            <Row className="justify-content-center">
+              <Col md={8} lg={6} xl={5}>
+                <Card className="mt-4">
+                  <CardBody className="p-4">
+                    <div className="text-center mt-2">
+                      <h5 className="text-primary">{Texts.WELCOME_BACK}</h5>
+                      <p className="text-muted">{Texts.LOGIN_MESSAGE}</p>
+                    </div>
 
-    return (
-        <React.Fragment>
-            <ParticlesAuth>
-                <div className="auth-page-content mt-lg-5">
-                    <Container>
-                        <Row>
-                            <Col lg={12}>
-                                <div className="text-center mt-sm-5 mb-4 text-white-50">
-                                    <div>
-                                        <Link to="/" className="d-inline-block auth-logo">
-                                            <img src={logoLight} alt="logo" height="20" />
-                                        </Link>
-                                    </div>
-                                    <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
-                                </div>
-                            </Col>
-                        </Row>
+                    {errorMsg && <Alert color="danger">{errorMsg}</Alert>}
 
-                        <Row className="justify-content-center">
-                            <Col md={8} lg={6} xl={5}>
-                                <Card className="mt-4">
-                                    <CardBody className="p-4">
-                                        <div className="text-center mt-2">
-                                            <h5 className="text-primary">Welcome Back !</h5>
-                                            <p className="text-muted">Sign in to continue to Velzon.</p>
-                                        </div>
-                                        {errorMsg && <Alert color="danger">{errorMsg}</Alert>}
-                                        <div className="p-2 mt-4">
-                                            <Form onSubmit={validation.handleSubmit}>
-                                                <div className="mb-3">
-                                                    <Label htmlFor="email" className="form-label">Email</Label>
-                                                    <Input
-                                                        name="email"
-                                                        className="form-control"
-                                                        placeholder="Enter email"
-                                                        type="email"
-                                                        onChange={validation.handleChange}
-                                                        onBlur={validation.handleBlur}
-                                                        value={validation.values.email}
-                                                        invalid={validation.touched.email && validation.errors.email}
-                                                    />
-                                                    {validation.touched.email && validation.errors.email && (
-                                                        <FormFeedback>{validation.errors.email}</FormFeedback>
-                                                    )}
-                                                </div>
+                    <div className="p-2 mt-4">
+                      <Form onSubmit={validation.handleSubmit}>
+                        <BaseInput
+                          label={Email}
+                          type="email"
+                          name="email"
+                          placeholder={Placeholder(Email)}
+                          value={validation.values.email}
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          error={validation.touched.email && validation.errors.email}
+                          required
+                        />
 
-                                                <div className="mb-3">
-                                                    <div className="float-end">
-                                                        <Link to="/forgot-password" className="text-muted">Forgot password?</Link>
-                                                    </div>
-                                                    <Label className="form-label" htmlFor="password">Password</Label>
-                                                    <div className="position-relative auth-pass-inputgroup mb-3">
-                                                        <Input
-                                                            name="password"
-                                                            type={passwordShow ? "text" : "password"}
-                                                            className="form-control pe-5"
-                                                            placeholder="Enter Password"
-                                                            onChange={validation.handleChange}
-                                                            onBlur={validation.handleBlur}
-                                                            value={validation.values.password}
-                                                            invalid={validation.touched.password && validation.errors.password}
-                                                        />
-                                                        {validation.touched.password && validation.errors.password && (
-                                                            <FormFeedback>{validation.errors.password}</FormFeedback>
-                                                        )}
-                                                        <button
-                                                            className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                            type="button"
-                                                            onClick={() => setPasswordShow(!passwordShow)}
-                                                        >
-                                                            <i className="ri-eye-fill align-middle"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
+                        <BaseInput
+                          label={Password}
+                          type="password"
+                          name="password"
+                          placeholder={Placeholder(Password)}
+                          value={validation.values.password}
+                          onChange={validation.handleChange}
+                          onBlur={validation.handleBlur}
+                          error={validation.touched.password && validation.errors.password}
+                          required
+                          passwordToggle
+                        />
 
-                                                <div className="form-check">
-                                                    <Input type="checkbox" className="form-check-input" id="auth-remember-check" />
-                                                    <Label className="form-check-label" htmlFor="auth-remember-check">Remember me</Label>
-                                                </div>
+                        <div className="mt-4">
+                          <BaseButton
+                            color="success"
+                            className="w-100"
+                            type="submit"
+                            disabled={loading}
+                            loader={loading}
+                          >
+                            {Texts.SIGNIN}
+                          </BaseButton>
+                        </div>
+                      </Form>
+                    </div>
+                  </CardBody>
+                </Card>
 
-                                                <div className="mt-4">
-                                                    <Button color="success" className="w-100" type="submit" disabled={loading}>
-                                                        {loading && <Spinner size="sm" className="me-2" />}
-                                                        Sign In
-                                                    </Button>
-                                                </div>
-
-                                                <div className="mt-4 text-center">
-                                                    <h5 className="fs-13 mb-4">Sign In with</h5>
-                                                    <div>
-                                                        <Button color="primary" className="btn-icon me-1">
-                                                            <i className="ri-facebook-fill fs-16" />
-                                                        </Button>
-                                                        <Button color="danger" className="btn-icon me-1">
-                                                            <i className="ri-google-fill fs-16" />
-                                                        </Button>
-                                                        <Button color="dark" className="btn-icon">
-                                                            <i className="ri-github-fill fs-16"></i>
-                                                        </Button>{" "}
-                                                        <Button color="info" className="btn-icon">
-                                                            <i className="ri-twitter-fill fs-16"></i>
-                                                        </Button>
-                                                    </div>
-                                                </div>
-                                            </Form>
-                                        </div>
-                                    </CardBody>
-                                </Card>
-
-                                <div className="mt-4 text-center">
-                                    <p className="mb-0">Don't have an account?{" "}
-                                        <Link to="/register" className="fw-semibold text-primary text-decoration-underline"> Signup </Link>
-                                    </p>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Container>
+                <div className="mt-4 text-center">
+                  <p className="mb-0">
+                    {Texts.SIGNUP_REDIRECT}{" "}
+                    <Link to="/register" className="fw-semibold text-primary text-decoration-underline">{Texts.SIGNUP_LINK}</Link>
+                  </p>
                 </div>
-            </ParticlesAuth>
-        </React.Fragment>
-    );
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </ParticlesAuth>
+    </React.Fragment>
+  );
 };
 
 export default Login;
