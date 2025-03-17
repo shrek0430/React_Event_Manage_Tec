@@ -54,12 +54,12 @@ const ForgetPasswordPage = () => {
 
                     response = await sendForgotPasswordRequest(values.email);
 
-                    if (StatusMessage(response.statusCode)) {
-                        toast.success(response.message);
-                        setSuccessMsg(response.message);
+                    if (StatusMessage(response?.statusCode)) {
+                        toast.success(response?.message);
+                        setSuccessMsg(response?.message);
                         setIsEmailVerified(true); 
                     } else {
-                        toast.error(response.message);
+                        toast.error(response?.message);
                     }
                 } else {
                     
