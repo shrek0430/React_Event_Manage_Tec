@@ -69,12 +69,12 @@ const ForgetPasswordPage = () => {
                         newPassword: values.newPassword,
                     });
 
-                    if (StatusMessage(response.statusCode)) {
+                    if (StatusMessage(response?.statusCode)) {
                         toast.success(Check.update(Password));
                         setSuccessMsg(Check.reset(Password));
                         setTimeout(() => navigate("/login"), 1500);
                     } else {
-                        toast.error(response.message);
+                        toast.error(response?.message);
                     }
                 }
             } catch (error) {
