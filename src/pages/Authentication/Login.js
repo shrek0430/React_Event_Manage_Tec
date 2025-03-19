@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import {
-  Card, CardBody, Col, Container, Row, Form, FormFeedback, Alert
+  Card, CardBody, Col, Container, Row, Form,  Alert
 } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { Field, useFormik } from "formik";
+import {useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import logoLight from "../../assets/images/logo-light.png";
 import ParticlesAuth from "../AuthenticationInner/ParticlesAuth";
 import BaseButton from "../../Components/Base/Button";
 import BaseInput from "../../Components/Base/Input";
 import { login } from "../../Api/LoginApi";
 import { StatusMessage } from "../../Components/constants/Common";
-import { Validation, Placeholder, Check, handleForgotPasswordClick } from "../../Components/constants/Validation";
+import {  Placeholder, Check } from "../../Components/constants/Validation";
 import { Email, Password, PageTitle } from "../../Components/constants/LoginConstant";
 import { Texts } from "../../Components/constants/Common";
 

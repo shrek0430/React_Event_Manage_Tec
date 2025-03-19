@@ -6,3 +6,9 @@ export const Verfi = "Verify Email";
 export const Otp = "OTP";
 export const NewPassword = "New Password";
 export const ConfirmPassword = "Confirm Password";
+export const DropDown={
+    Profile:"profile",
+    ChangePassword:"change password",
+    Logout:"logout"
+};
+

@@ -3,10 +3,6 @@ import { CardBody, Col, Row, Table } from "reactstrap";
 import { Link } from "react-router-dom";
 
 import {
-  Column,
-  Table as ReactTable,
-  ColumnFiltersState,
-  FilterFn,
   useReactTable,
   getCoreRowModel,
   getFilteredRowModel,

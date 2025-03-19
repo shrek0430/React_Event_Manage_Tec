@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import { Col, Collapse, Row } from 'reactstrap';
 import withRouter from '../../Components/Common/withRouter';
 
-// Import Data
+
 import navdata from "../LayoutMenuData";
-//i18n
+
 import { withTranslation } from "react-i18next";
 
 const HorizontalLayout = (props) => {
@@ -39,7 +39,7 @@ const HorizontalLayout = (props) => {
             const pathName = process.env.PUBLIC_URL + path;
             const ul = document.getElementById("navbar-nav");
             const items = ul.getElementsByTagName("a");
-            let itemsArray = [...items]; // converts NodeList to Array
+            let itemsArray = [...items]; 
             removeActivation(itemsArray);
             let matchingMenuItem = itemsArray.find((x) => {
                 return x.pathname === pathName;
@@ -56,8 +56,6 @@ const HorizontalLayout = (props) => {
         let parentCollapseDiv = item.closest(".collapse.menu-dropdown");
 
         if (parentCollapseDiv) {
-
-            // to set aria expand true remaining
             parentCollapseDiv.classList.add("show");
             parentCollapseDiv.parentElement.children[0].classList.add("active");
             parentCollapseDiv.parentElement.children[0].setAttribute("aria-expanded", "true");
@@ -105,7 +103,6 @@ const HorizontalLayout = (props) => {
             {(menuItems || []).map((item, key) => {
                 return (
                     <React.Fragment key={key}>
-                        {/* Main Header */}
                         {!item['isHeader'] ?
                             (item.subItems ? (
                                 <li className="nav-item">
@@ -121,7 +118,6 @@ const HorizontalLayout = (props) => {
                                         className={item.id === "baseUi" && item.subItems.length > 13 ? "menu-dropdown mega-dropdown-menu" : "menu-dropdown"}
                                         isOpen={item.stateVariables}
                                         id="sidebarApps">
-                                        {/* subItms  */}
                                         {item.id === "baseUi" && item.subItems.length > 13 ? (
                                             <React.Fragment>
                                                 <Row>

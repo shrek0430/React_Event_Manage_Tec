@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import withRouter from '../Components/Common/withRouter';
 
-//redux
+
 import { useSelector } from "react-redux";
 import { createSelector } from 'reselect';
 
@@ -9,8 +9,8 @@ const NonAuthLayout = ({ children } ) => {
     const nonauthData = createSelector(
         (state ) => state.Layout.layoutModeType,
         (layoutModeType) => layoutModeType
-      );
-    // Inside your component
+        );
+
     const layoutModeType = useSelector(nonauthData);
 
     useEffect(() => {

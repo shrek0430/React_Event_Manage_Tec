@@ -2,20 +2,16 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown, DropdownMenu, DropdownToggle, Form } from 'reactstrap';
 
-//import images
+
 import logoSm from "../assets/images/logo-sm.png";
 import logoDark from "../assets/images/logo-dark.png";
 import logoLight from "../assets/images/logo-light.png";
 
-//import Components
+
 import SearchOption from '../Components/Common/SearchOption';
-import LanguageDropdown from '../Components/Common/LanguageDropdown';
-import WebAppsDropdown from '../Components/Common/WebAppsDropdown';
-import MyCartDropdown from '../Components/Common/MyCartDropdown';
-import FullScreenDropdown from '../Components/Common/FullScreenDropdown';
-import NotificationDropdown from '../Components/Common/NotificationDropdown';
+
 import ProfileDropdown from '../Components/Common/ProfileDropdown';
-import LightDark from '../Components/Common/LightDark';
+
 
 import { changeSidebarVisibility } from '../slices/thunks';
 import { useSelector, useDispatch } from "react-redux";
@@ -29,8 +25,8 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
         (state) => state.Layout.sidebarVisibilitytype,
         (state) => ({
             sidebarVisibilitytype: state.sidebarVisibilitytype})
-      );
-    // Inside your component
+        );
+    
     const {sidebarVisibilitytype} = useSelector(selectDashboardData);
     
 
@@ -46,12 +42,10 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
         if (windowSize > 767)
             document.querySelector(".hamburger-icon").classList.toggle('open');
 
-        //For collapse horizontal menu
         if (document.documentElement.getAttribute('data-layout') === "horizontal") {
             document.body.classList.contains("menu") ? document.body.classList.remove("menu") : document.body.classList.add("menu");
         }
 
-        //For collapse vertical and semibox menu
         if (sidebarVisibilitytype === "show" && (document.documentElement.getAttribute('data-layout') === "vertical" || document.documentElement.getAttribute('data-layout') === "semibox")) {
             if (windowSize < 1025 && windowSize > 767) {
                 document.body.classList.remove('vertical-sidebar-enable');
@@ -66,7 +60,6 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
         }
 
 
-        //Two column menu
         if (document.documentElement.getAttribute('data-layout') === "twocolumn") {
             document.body.classList.contains('twocolumn-panel') ? document.body.classList.remove('twocolumn-panel') : document.body.classList.add('twocolumn-panel');
         }
@@ -134,29 +127,6 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
                                     </Form>
                                 </DropdownMenu>
                             </Dropdown>
-
-                            {/* LanguageDropdown */}
-                            <LanguageDropdown />
-
-                            {/* WebAppsDropdown */}
-                            <WebAppsDropdown />
-
-                            {/* MyCartDropdwon */}
-                            <MyCartDropdown />
-
-                            {/* FullScreenDropdown */}
-                            <FullScreenDropdown />
-
-                            {/* Dark/Light Mode set */}
-                            <LightDark
-                                layoutMode={layoutModeType}
-                                onChangeLayoutMode={onChangeLayoutMode}
-                            />
-
-                            {/* NotificationDropdown */}
-                            <NotificationDropdown />
-
-                            {/* ProfileDropdown */}
                             <ProfileDropdown />
                         </div>
                     </div>

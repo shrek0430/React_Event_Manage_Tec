@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from "prop-types";
 
 
-//import Components
+
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 
-//import actions
+
 import {
     changeLayout,
     changeSidebarTheme,
@@ -21,7 +21,7 @@ import {
     changeSidebarVisibility
 } from "../slices/thunks";
 
-//redux
+
 import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from 'reselect';
 import withRouter from '../Components/Common/withRouter';
@@ -47,7 +47,6 @@ const Layout = (props) => {
             sidebarVisibilitytype: layout.sidebarVisibilitytype,
         })
     );
-    // Inside your component
     const {
         layoutType,
         leftSidebarType,
@@ -58,13 +57,9 @@ const Layout = (props) => {
         leftsidbarSizeType,
         leftSidebarViewType,
         leftSidebarImageType,
-        // preloader,
         sidebarVisibilitytype
     } = useSelector(selectLayoutProperties);
 
-    /*
-    layout settings
-    */
     useEffect(() => {
         if (
             layoutType ||
@@ -101,9 +96,7 @@ const Layout = (props) => {
         leftSidebarImageType,
         sidebarVisibilitytype,
         dispatch]);
-    /*
-    call dark/light mode
-    */
+
     const onChangeLayoutMode = (value) => {
         if (changeLayoutMode) {
             dispatch(changeLayoutMode(value));
@@ -111,7 +104,6 @@ const Layout = (props) => {
     };
 
     const [headerClass, setHeaderClass] = useState("");
-    // class add remove in header
     useEffect(() => {
         window.addEventListener("scroll", scrollNavigation, true);
     });

@@ -10,7 +10,7 @@ import BaseButton from "../../Components/Base/Button";
 import BaseInput from "../../Components/Base/Input";
 import { StatusMessage,Texts } from "../../Components/constants/Common";
 import { sendForgotPasswordRequest, setUpdatePassword } from "../../Api/sendForgetPasswordRequest";
-import { ConfirmPassword, Email, NewPassword, Otp, otp, Password, Verfi } from "../../Components/constants/LoginConstant";
+import { ConfirmPassword, Email, NewPassword, Otp, Password, Verfi } from "../../Components/constants/LoginConstant";
 import { Check, Placeholder } from "../../Components/constants/Validation";
 
 const ForgetPasswordPage = () => {

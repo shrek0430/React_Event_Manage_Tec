@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from 'reactstrap';
 
-//SimpleBar
+
 import SimpleBar from "simplebar-react";
 
-//import images
+
 import image2 from "../../assets/images/users/avatar-2.jpg";
 import image3 from "../../assets/images/users/avatar-3.jpg";
 import image5 from "../../assets/images/users/avatar-5.jpg";

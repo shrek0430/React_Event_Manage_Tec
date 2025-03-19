@@ -3,7 +3,6 @@ import { CardBody, Col, Row, Table } from "reactstrap";
 import { Link } from "react-router-dom";
 
 import {
-  // Table as ReactTable,
   useReactTable,
   getCoreRowModel,
   getFilteredRowModel,
@@ -28,10 +27,8 @@ import {
   TaskListGlobalFilter,
 } from "../../Components/Common/GlobalSearchFilter";
 
-// Column Filter
 const Filter = ({
   column,
-  // table
 }) => {
   const columnFilterValue = column.getFilterValue();
 
@@ -51,7 +48,7 @@ const Filter = ({
 };
 
 
-// Global Filter
+
 const DebouncedInput = ({
   value: initialValue,
   onChange,
