@@ -7,7 +7,7 @@ function App() {
   return (
     <React.Fragment>
     <ToastContainer position="top-right" autoClose={3000} />
-      <Route />
+      <Route/>
     </React.Fragment>
   );
 }
