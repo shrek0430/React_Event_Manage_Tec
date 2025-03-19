@@ -8,10 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 import ParticlesAuth from "../../pages/AuthenticationInner/ParticlesAuth";
 import BaseButton from "../../Components/Base/Button";
 import BaseInput from "../../Components/Base/Input";
-import { StatusMessage, Texts } from "../../Components/Constant/Common";
+import { StatusMessage,Texts } from "../../Components/constants/Common";
 import { sendForgotPasswordRequest, setUpdatePassword } from "../../Api/sendForgetPasswordRequest";
-import { ConfirmPassword, Email, NewPassword, Otp, otp, Password, Verfi } from "../../Components/Constant/LoginConstant";
-import { Check, Placeholder } from "../../Components/Constant/Validation";
+import { ConfirmPassword, Email, NewPassword, Otp, otp, Password, Verfi } from "../../Components/constants/LoginConstant";
+import { Check, Placeholder } from "../../Components/constants/Validation";
 
 const ForgetPasswordPage = () => {
     const navigate = useNavigate();
